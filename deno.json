@@ -6,6 +6,10 @@
     ".": "./link/index.ts",
     "./types": "./link/models/index.ts"
   },
+  "publish": {
+    "include": ["./link", "./deno.json", "./README.md", "./LICENSE"],
+    "exclude": ["./generators", "./example", "./repl"]
+  },
   "tasks": {
     "generate": "deno --allow-write generators/models/dataModel/primitiveContainers.ts",
     "repl": "cd repl; deno task run",

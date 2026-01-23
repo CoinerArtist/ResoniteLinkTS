@@ -1,6 +1,6 @@
 {
-  "name": "@coin/ResoniteLinkTS",
-  "version": "1.0.0",
+  "name": "@coin/resonitelink-ts",
+  "version": "1.0.1",
   "license": "MIT",
   "exports": {
     ".": "./link/index.ts",

@@ -1,6 +1,7 @@
 # ResoniteLinkTS
 
 ResoniteLinkTS is mostly a collection of TS types to describe [ResoniteLink](https://github.com/Yellow-Dog-Man/ResoniteLink) requests and responses.
+
 It includes a lightweight client to provide the correct types and match requests to their response using promises.
 
 > [!CAUTION]
@@ -8,12 +9,18 @@ It includes a lightweight client to provide the correct types and match requests
 
 ## Installation
 
-ToDo
+```bash
+deno add jsr:@coin/resonitelink-ts
+npx jsr add @coin/resonitelink-ts
+pnpm i jsr:@coin/resonitelink-ts
+yarn add jsr:@coin/resonitelink-ts
+bunx jsr add @coin/resonitelink-ts
+```
 
 ## Usage
 
 ```ts
-import { ResoniteLinkClient, Component, Field, PrimitiveType, NullableType } from "@coin/ResoniteLinkTS"
+import { ResoniteLinkClient, Component, Field, PrimitiveType, NullableType } from "@coin/resonitelink-ts"
 
 const link = new ResoniteLinkClient()
 
@@ -53,4 +60,4 @@ console.log(response.data)
 link.disconnect()
 ```
 
-For more example, look at [/example](./example/) or [/repl](./repl/) (a TS port of the ResoniteLink REPL).
+For more examples, look at [/example](./example/) or [/repl](./repl/) (a TS port of the ResoniteLink REPL).

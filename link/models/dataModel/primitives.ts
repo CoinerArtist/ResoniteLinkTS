@@ -1,8 +1,8 @@
-export function isNullableType(type: string){ return type.endsWith("?") }
-export function isArrayType(type: string){ return type.endsWith("[]") }
+export function isNullableType(type: string): boolean { return type.endsWith("?") }
+export function isArrayType(type: string): boolean { return type.endsWith("[]") }
 
 /** Removes Nullable(`?`) or Array(`[]`) from a Resonite type string. */
-export function getPrimitiveType(type: string){
+export function getPrimitiveType(type: string): string {
     if(isNullableType(type)) return type.slice(0, -1)
     if(isArrayType(type)) return type.slice(0, -2)
     return type

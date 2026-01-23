@@ -111,7 +111,7 @@ ${equiv.map(([a, b]) => `"${a}": "${b}"`).join(`,\n`)},
  * Note : strings in Resonite are always nullable. (\`"string"\` -> \`"string | null"\`)
  * 
  * See also \`isNullableType\`, \`isArrayType\`, \`getPrimitiveType\`. */
-export function getTsTypeFromResoniteType(type: string){
+export function getTsTypeFromResoniteType(type: string): string {
     return equivalentTypes[type]
 }
 `

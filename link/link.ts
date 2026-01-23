@@ -28,7 +28,7 @@ export class ResoniteLinkClient{
     /** Returns a promise that resolves when the socket is opened. It is rejected if the socket closes without opening.
      * 
      * If you are using event listeners, you probably want to add them before calling `connect`. */
-    connect(url: string | URL){
+    connect(url: string | URL): Promise<void> {
         return new Promise<void>((res, rej) => {
             if(this.socket !== null) this.socket.close()
             this.socket = new WebSocket(url)
@@ -75,7 +75,7 @@ export class ResoniteLinkClient{
         if(i > 0) this.listeners[type].splice(i, 1)
     }
 
-    get readyState(){
+    get readyState(): number {
         if(this.socket) return this.socket.readyState
         return WebSocket.CLOSED
     }
@@ -86,13 +86,13 @@ export class ResoniteLinkClient{
     private getMessageId(){ return this.messageId++ } // Unique message id
 
     private _sessionId: string | null = null
-    get sessionId(){ return this._sessionId }
+    get sessionId(): string | null { return this._sessionId }
 
     private id = 0
     /** Returns a unique id each call that shouldn't have any conflict in the data model.
      * 
      * `requestSessionData()` needs to be called once before this can be used. */
-    getUniqueId(){
+    getUniqueId(): string {
         if(this._sessionId === null) throw new Error("You need to call `requestSessionData()` once before using `getUniqueId()`")
         return `TS${this._sessionId}_${(this.id++).toString(16)}`
     }
@@ -134,7 +134,7 @@ export class ResoniteLinkClient{
 
     // --- //
 
-    requestSessionData(){
+    requestSessionData(): Promise<SessionData> {
         return (this.sendRequest({
             $type: "requestSessionData"
         }) as Promise<SessionData>)
@@ -145,36 +145,36 @@ export class ResoniteLinkClient{
     }
 
     /** This a wrapper for `sendRequest`. */
-    addComponent<T extends Component = Component>(containerSlotId: string, data: MakeComponentPartialForAdd<T>){
+    addComponent<T extends Component = Component>(containerSlotId: string, data: MakeComponentPartialForAdd<T>): Promise<SuccessResponse> {
         return this.sendRequest({$type: "addComponent", containerSlotId, data})
     }
     /** This a wrapper for `sendRequest`. */
-    updateComponent<T extends Component = Component>(data: MakeComponentPartialForUpdate<T>){
+    updateComponent<T extends Component = Component>(data: MakeComponentPartialForUpdate<T>): Promise<SuccessResponse> {
         return this.sendRequest({$type: "updateComponent", data})
     }
     /** This a wrapper for `sendRequest`. */
-    getComponent<T extends Component = Component>(componentId: string){
+    getComponent<T extends Component = Component>(componentId: string): Promise<ComponentData<T>> {
         return this.sendRequest({$type: "getComponent", componentId}) as Promise<ComponentData<T>>
     }
     /** This a wrapper for `sendRequest`. */
-    removeComponent(componentId: string){
+    removeComponent(componentId: string): Promise<SuccessResponse> {
         return this.sendRequest({$type: "removeComponent", componentId})
     }
 
     /** This a wrapper for `sendRequest`. */
-    addSlot(data: SlotPartial){
+    addSlot(data: SlotPartial): Promise<SuccessResponse> {
         return this.sendRequest({$type: "addSlot", data})
     }
     /** This a wrapper for `sendRequest`. */
-    updateSlot(data: RequiredBy<SlotPartial, "id">){
+    updateSlot(data: RequiredBy<SlotPartial, "id">): Promise<SuccessResponse> {
         return this.sendRequest({$type: "updateSlot", data})
     }
     /** This a wrapper for `sendRequest`. */
-    getSlot(slotId: string, depth=0, includeComponentData=false){
+    getSlot(slotId: string, depth=0, includeComponentData=false): Promise<SlotData> {
         return this.sendRequest({$type: "getSlot", slotId, depth, includeComponentData})
     }
     /** This a wrapper for `sendRequest`. */
-    removeSlot(slotId: string){
+    removeSlot(slotId: string): Promise<SuccessResponse> {
         return this.sendRequest({$type: "removeSlot", slotId})
     }
 }

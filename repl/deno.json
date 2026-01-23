@@ -1,0 +1,8 @@
+{
+  "tasks": {
+    "run": "deno --allow-net repl.ts"
+  },
+  "imports": {
+    "@std/fmt": "jsr:@std/fmt@^1.0.9"
+  }
+}

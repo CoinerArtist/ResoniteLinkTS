@@ -7,6 +7,13 @@ export type ValueField<T extends PrimitiveType | NullableType> = Component<
     }
 >
 
+export type ReferenceField<T extends string> = Component<
+    `[FrooxEngine]FrooxEngine.ReferenceField<${T}>`, 
+    {
+        Reference: Reference<T>
+    }
+>
+
 export type ValueCopy<T extends PrimitiveType | NullableType> = Component<
     `[FrooxEngine]FrooxEngine.ValueCopy<${T}>`,
     {
@@ -44,6 +51,8 @@ export type PBS_Metallic = Component<
     `[FrooxEngine]FrooxEngine.PBS_Metallic`,
     {
         AlbedoColor: Field<"colorX">
+        OffsetFactor: Field<"float">
+        OffsetUnits: Field<"float">
         // I'm not manually writing all of it.  I'll make a tool to autogenerate these definitions later
     }
 >
@@ -60,6 +69,17 @@ export type Grabbable = Component<
     `[FrooxEngine]FrooxEngine.Grabbable`, 
     {
         Scalable: Field<"bool">
+        // ...
+    }
+>
+
+export type TextRenderer = Component<
+    `[FrooxEngine]FrooxEngine.TextRenderer`,
+    {
+        Text: Field<"string">
+        Size: Field<"float">
+        HorizontalAlign: Field<"enum", "TextHorizontalAlignement">
+        VerticalAlign: Field<"enum", "TextVerticalAlignement">
         // ...
     }
 >

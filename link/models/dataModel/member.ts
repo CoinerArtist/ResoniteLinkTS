@@ -27,5 +27,5 @@ export type MakeMemberPartial<T extends Member> =
   T extends {$type: "list"}
 ? {$type: "list", elements: MakeMemberPartial<T["elements"][number]>[]}
 : T extends {$type: "syncObject"}
-? {$type: "syncObject", members: {[P in keyof T["members"]]?: MakeMemberPartial<T["members"][P]>[]}}
+? {$type: "syncObject", members: {[P in keyof T["members"]]?: MakeMemberPartial<T["members"][P]>}}
 : Omit<T, "id" | "targetType" | "enumType"> & {id?: string}

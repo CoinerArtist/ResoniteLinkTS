@@ -1,6 +1,6 @@
 # ResoniteLinkTS
 
-ResoniteLinkTS is mostly a collection of TS types to describe [ResoniteLink](https://github.com/Yellow-Dog-Man/ResoniteLink) requests and responses.
+**ResoniteLinkTS** is mostly a collection of TS types to describe [ResoniteLink](https://github.com/Yellow-Dog-Man/ResoniteLink) requests and responses.
 
 It includes a lightweight client to provide the correct types and match requests to their response using promises.
 
@@ -10,11 +10,11 @@ It includes a lightweight client to provide the correct types and match requests
 ## Installation
 
 ```bash
-deno add jsr:@coin/resonitelink-ts
-npx jsr add @coin/resonitelink-ts
-pnpm i jsr:@coin/resonitelink-ts
-yarn add jsr:@coin/resonitelink-ts
-bunx jsr add @coin/resonitelink-ts
+deno add jsr:@coin/resonitelink-ts  # Deno
+npx jsr add @coin/resonitelink-ts   # npm
+pnpm i jsr:@coin/resonitelink-ts    # pnpm
+yarn add jsr:@coin/resonitelink-ts  # Yarn
+bunx jsr add @coin/resonitelink-ts  # Bun
 ```
 
 ## Usage

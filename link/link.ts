@@ -134,14 +134,10 @@ export class ResoniteLinkClient{
 
     // --- //
 
-    requestSessionData(): Promise<SessionData> {
-        return (this.sendRequest({
-            $type: "requestSessionData"
-        }) as Promise<SessionData>)
-        .then(data => {
-            this._sessionId = data.uniqueSessionId
-            return data
-        })
+    async requestSessionData(): Promise<SessionData> {
+        const data = await this.sendRequest({$type: "requestSessionData"}) as SessionData
+        this._sessionId = data.uniqueSessionId
+        return data
     }
 
     /** This a wrapper for `sendRequest`. */

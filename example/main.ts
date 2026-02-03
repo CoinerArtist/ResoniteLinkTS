@@ -47,11 +47,19 @@ const rot = {
     w: Math.cos(angle)
 }
 
+const size = 1 + Math.random()*1
+const scale = {
+    x: size,
+    y: size,
+    z: size
+}
+
 await link.addSlot({
     id: boxSlotId,
     name: {value: `Hello from TS!`},
     position: {value: pos},
-    rotation: {value: rot}
+    rotation: {value: rot},
+    scale: {value: scale}
 })
 
 const boxMeshId = link.getUniqueId()
@@ -77,13 +85,28 @@ await link.addComponent<PBS_Metallic>(boxSlotId, {
     }
 })
 
+const rendererId = link.getUniqueId()
+
 await link.addComponent<MeshRenderer>(boxSlotId, {
     componentType: "[FrooxEngine]FrooxEngine.MeshRenderer",
+    id: rendererId,
     members: {
         Mesh: {$type: "reference", targetId: boxMeshId},
         Materials: {
             $type: "list",
             elements: [{$type: "reference", targetId: materialId}]  // Lists are currently bugged, so this will be null
+        }
+    }
+})
+
+// This is currently needed to correctly set the material
+const meshRenderer = (await link.getComponent<MeshRenderer>(rendererId)).data
+await link.updateComponent<MeshRenderer>({
+    id: rendererId,
+    members: {
+        Materials: {
+            $type: "list", 
+            elements: [{$type: "reference", targetId: materialId, id: meshRenderer.members.Materials.elements[0].id}]
         }
     }
 })

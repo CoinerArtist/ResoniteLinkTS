@@ -193,7 +193,7 @@ export class ResoniteLinkClient{
      * Don't forget to call `send()` at the end. 
      * 
      * Also each operation has its own success value, so you have to check it yourself. */
-    batch(){
+    batch(): BatchFactory {
         return new BatchFactory(this)
     }
 }

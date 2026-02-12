@@ -1,4 +1,4 @@
-import type { AddComponent, AddSlot, GetComponent, GetSlot, RemoveComponent, RemoveSlot, RequestSessionData, UpdateComponent, UpdateSlot } from "./index.ts";
+import type { DataModelOperation, RequestSessionData, DataModelOperationBatch } from "./index.ts";
 
 export interface MessageGeneric<T extends string>{
     $type: T
@@ -6,6 +6,5 @@ export interface MessageGeneric<T extends string>{
 }
 
 export type Message = 
-RequestSessionData | 
-GetSlot | AddSlot | UpdateSlot | RemoveSlot |
-GetComponent | AddComponent | UpdateComponent | RemoveComponent // Todo add data imports
+RequestSessionData | DataModelOperation | DataModelOperationBatch
+// Todo add data imports

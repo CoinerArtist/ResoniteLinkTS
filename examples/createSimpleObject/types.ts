@@ -1,4 +1,4 @@
-import { Component, Field, NullableType, PrimitiveType, Reference, SyncList } from "../link/index.ts";
+import type { Component, Field, NullableType, PrimitiveType, Reference, SyncList } from "../../link/index.ts";
 
 export type ValueField<T extends PrimitiveType | NullableType> = Component<
     `[FrooxEngine]FrooxEngine.ValueField<${T}>`, 

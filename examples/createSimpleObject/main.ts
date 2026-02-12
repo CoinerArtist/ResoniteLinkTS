@@ -1,5 +1,5 @@
-import { ResoniteLinkClient } from "../link/index.ts"
-import { BoxCollider, BoxMesh, Grabbable, MeshRenderer, PBS_Metallic, TextRenderer, ValueCopy } from "./types.ts";
+import { ResoniteLinkClient } from "../../link/index.ts"
+import type { BoxCollider, BoxMesh, Grabbable, MeshRenderer, PBS_Metallic, TextRenderer, ValueCopy } from "./types.ts";
 
 // --- //
 
@@ -85,28 +85,13 @@ await link.addComponent<PBS_Metallic>(boxSlotId, {
     }
 })
 
-const rendererId = link.getUniqueId()
-
 await link.addComponent<MeshRenderer>(boxSlotId, {
     componentType: "[FrooxEngine]FrooxEngine.MeshRenderer",
-    id: rendererId,
     members: {
         Mesh: {$type: "reference", targetId: boxMeshId},
         Materials: {
             $type: "list",
-            elements: [{$type: "reference", targetId: materialId}]  // Lists are currently bugged, so this will be null
-        }
-    }
-})
-
-// This is currently needed to correctly set the material
-const meshRenderer = (await link.getComponent<MeshRenderer>(rendererId)).data
-await link.updateComponent<MeshRenderer>({
-    id: rendererId,
-    members: {
-        Materials: {
-            $type: "list", 
-            elements: [{$type: "reference", targetId: materialId, id: meshRenderer.members.Materials.elements[0].id}]
+            elements: [{$type: "reference", targetId: materialId}]
         }
     }
 })

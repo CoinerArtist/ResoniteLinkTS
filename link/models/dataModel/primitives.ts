@@ -75,3 +75,8 @@ export interface colorX extends color{
 
 /** Uses `[0, 255]` range */
 export type color32 = color
+
+export interface rect{
+    position: number2
+    size: number2
+}

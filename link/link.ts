@@ -1,6 +1,6 @@
 import type { RequiredBy } from "./types.ts";
-import type { Component, GetSlot, SlotData, Message, Response, SessionData, GetComponent, ComponentData, AddSlot, SuccessResponse, UpdateSlot, RemoveSlot, AddComponent, UpdateComponent, RemoveComponent } from "./models/index.ts";
-import type { MakeComponentPartialForAdd, MakeComponentPartialForUpdate, SlotPartial } from "./index.ts";
+import type { Component, GetSlot, SlotData, Message, Response, SessionData, GetComponent, ComponentData, AddSlot, SuccessResponse, UpdateSlot, RemoveSlot, AddComponent, UpdateComponent, RemoveComponent, DataModelOperation, DataModelOperationBatch, BatchResponse } from "./models/index.ts";
+import type { MakeComponentPartialForAdd, MakeComponentPartialForUpdate, NewEntityId, SlotPartial } from "./index.ts";
 
 /**
  * Here's a list of undiserable behaviours you may run into :
@@ -102,15 +102,17 @@ export class ResoniteLinkClient{
     // I tried adding some generics to the component requests,
     // but it seems to breaks overloading and always use the first one
 
-    sendRequest(data: AddComponent): Promise<SuccessResponse>
+    sendRequest(data: AddComponent): Promise<NewEntityId>
     sendRequest(data: UpdateComponent): Promise<SuccessResponse>
     sendRequest(data: GetComponent): Promise<ComponentData>
     sendRequest(data: RemoveComponent): Promise<SuccessResponse>
 
-    sendRequest(data: AddSlot): Promise<SuccessResponse>
+    sendRequest(data: AddSlot): Promise<NewEntityId>
     sendRequest(data: UpdateSlot): Promise<SuccessResponse>
     sendRequest(data: GetSlot): Promise<SlotData>
     sendRequest(data: RemoveSlot): Promise<SuccessResponse>
+
+    sendRequest(data: DataModelOperationBatch): Promise<BatchResponse>
 
     /** `{ $type: "requestSessionData" }` doesn't have an overload because it confuses intellisense. 
      * Use `requestSessionData()` to get the proper response type. */
@@ -141,7 +143,7 @@ export class ResoniteLinkClient{
     }
 
     /** This a wrapper for `sendRequest`. */
-    addComponent<T extends Component = Component>(containerSlotId: string, data: MakeComponentPartialForAdd<T>): Promise<SuccessResponse> {
+    addComponent<T extends Component = Component>(containerSlotId: string, data: MakeComponentPartialForAdd<T>): Promise<NewEntityId> {
         return this.sendRequest({$type: "addComponent", containerSlotId, data})
     }
     /** This a wrapper for `sendRequest`. */
@@ -158,7 +160,7 @@ export class ResoniteLinkClient{
     }
 
     /** This a wrapper for `sendRequest`. */
-    addSlot(data: SlotPartial): Promise<SuccessResponse> {
+    addSlot(data: SlotPartial): Promise<NewEntityId> {
         return this.sendRequest({$type: "addSlot", data})
     }
     /** This a wrapper for `sendRequest`. */
@@ -172,5 +174,80 @@ export class ResoniteLinkClient{
     /** This a wrapper for `sendRequest`. */
     removeSlot(slotId: string): Promise<SuccessResponse> {
         return this.sendRequest({$type: "removeSlot", slotId})
+    }
+
+    /** This is a wrapper for `sendRequest`.
+     * 
+     * If you want to uses the other `sendRequest` wrapper in a batch, use `batch()` instead. */
+    dataModelOperationBatch(operations: DataModelOperation[]): Promise<BatchResponse>{
+        return this.sendRequest({
+            $type: "dataModelOperationBatch",
+            operations
+        })
+    }
+
+    // --- //
+
+    /** This returns a factory for a batch message.
+     * 
+     * Don't forget to call `send()` at the end. 
+     * 
+     * Also each operation has its own success value, so you have to check it yourself. */
+    batch(){
+        return new BatchFactory(this)
+    }
+}
+
+class BatchFactory{
+    operations: DataModelOperation[] = []
+    link: ResoniteLinkClient
+
+    constructor(link: ResoniteLinkClient){
+        this.link = link
+    }
+
+    /** Each operation has its own success value.
+     * This promise will only be rejected if the batch itself couldn't be processed. */
+    send(): Promise<BatchResponse> {
+        return this.link.dataModelOperationBatch(this.operations)
+    }
+
+    addOperation(data: DataModelOperation): this {
+        this.operations.push(data)
+        return this
+    }
+
+    /** This a wrapper for `addOperation`. */
+    addComponent<T extends Component = Component>(containerSlotId: string, data: MakeComponentPartialForAdd<T>): this {
+        return this.addOperation({$type: "addComponent", containerSlotId, data})
+    }
+    /** This a wrapper for `addOperation`. */
+    updateComponent<T extends Component = Component>(data: MakeComponentPartialForUpdate<T>): this {
+        return this.addOperation({$type: "updateComponent", data})
+    }
+    /** This a wrapper for `addOperation`. */
+    getComponent(componentId: string): this {
+        return this.addOperation({$type: "getComponent", componentId})
+    }
+    /** This a wrapper for `addOperation`. */
+    removeComponent(componentId: string): this {
+        return this.addOperation({$type: "removeComponent", componentId})
+    }
+
+    /** This a wrapper for `addOperation`. */
+    addSlot(data: SlotPartial): this {
+        return this.addOperation({$type: "addSlot", data})
+    }
+    /** This a wrapper for `addOperation`. */
+    updateSlot(data: RequiredBy<SlotPartial, "id">): this {
+        return this.addOperation({$type: "updateSlot", data})
+    }
+    /** This a wrapper for `addOperation`. */
+    getSlot(slotId: string, depth=0, includeComponentData=false): this {
+        return this.addOperation({$type: "getSlot", slotId, depth, includeComponentData})
+    }
+    /** This a wrapper for `addOperation`. */
+    removeSlot(slotId: string): this {
+        return this.addOperation({$type: "removeSlot", slotId})
     }
 }

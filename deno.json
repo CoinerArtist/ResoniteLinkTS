@@ -1,6 +1,6 @@
 {
   "name": "@coin/resonitelink-ts",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "license": "MIT",
   "exports": {
     ".": "./link/index.ts",
@@ -13,6 +13,6 @@
   "tasks": {
     "generate": "deno --allow-write generators/models/dataModel/primitiveContainers.ts",
     "repl": "cd repl; deno task run",
-    "example": "cd example; deno task run"
+    "example": "cd examples; deno task"
   }
 }

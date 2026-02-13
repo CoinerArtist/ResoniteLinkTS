@@ -60,4 +60,4 @@ console.log(response.data)
 link.disconnect()
 ```
 
-For more examples, look at [/example](./example/) or [/repl](./repl/) (a TS port of the ResoniteLink REPL).
+For more examples, look at [/examples](./examples/) or [/repl](./repl/) (a TS port of the ResoniteLink REPL).

@@ -1,6 +1,6 @@
 import type { RequiredBy } from "./types.ts";
 import type { Component, GetSlot, SlotData, Message, Response, SessionData, GetComponent, ComponentData, AddSlot, SuccessResponse, UpdateSlot, RemoveSlot, AddComponent, UpdateComponent, RemoveComponent, DataModelOperation, DataModelOperationBatch, BatchResponse } from "./models/index.ts";
-import type { MakeComponentPartialForAdd, MakeComponentPartialForUpdate, NewEntityId, SlotPartial } from "./index.ts";
+import type { ComponentDefinitionData, ComponentTypeList, EnumDefinitionData, GetComponentDefinition, GetComponentTypeList, GetEnumDefinition, GetGenericTypeDefinition, GetSyncObjectDefinition, GetTypeDefinition, MakeComponentPartialForAdd, MakeComponentPartialForUpdate, NewEntityId, SlotPartial, SyncObjectDefinitionData, TypeDefinitionData } from "./index.ts";
 
 /**
  * Here's a list of undiserable behaviours you may run into :
@@ -112,6 +112,13 @@ export class ResoniteLinkClient{
     sendRequest(data: GetSlot): Promise<SlotData>
     sendRequest(data: RemoveSlot): Promise<SuccessResponse>
 
+    sendRequest(data: GetComponentDefinition): Promise<ComponentDefinitionData>
+    sendRequest(data: GetComponentTypeList): Promise<ComponentTypeList>
+    sendRequest(data: GetEnumDefinition): Promise<EnumDefinitionData>
+    sendRequest(data: GetGenericTypeDefinition): Promise<TypeDefinitionData>
+    sendRequest(data: GetSyncObjectDefinition): Promise<SyncObjectDefinitionData>
+    sendRequest(data: GetTypeDefinition): Promise<TypeDefinitionData>
+
     sendRequest(data: DataModelOperationBatch): Promise<BatchResponse>
 
     /** `{ $type: "requestSessionData" }` doesn't have an overload because it confuses intellisense. 
@@ -176,10 +183,35 @@ export class ResoniteLinkClient{
         return this.sendRequest({$type: "removeSlot", slotId})
     }
 
+    /** This a wrapper for `sendRequest`. */
+    getComponentDefinition(componentType: string, flattened=false): Promise<ComponentDefinitionData> {
+        return this.sendRequest({$type: "getComponentDefinition", componentType, flattened})
+    }
+    /** This a wrapper for `sendRequest`. */
+    getComponentTypeList(categoryPath: string): Promise<ComponentTypeList> {
+        return this.sendRequest({$type: "getComponentTypeList", categoryPath})
+    }
+    /** This a wrapper for `sendRequest`. */
+    getEnumDefinition(type: string): Promise<EnumDefinitionData> {
+        return this.sendRequest({$type: "getEnumDefinition", type})
+    }
+    /** This a wrapper for `sendRequest`. */
+    getGenericTypeDefinition(genericInstanceType: string): Promise<TypeDefinitionData> {
+        return this.sendRequest({$type: "getGenericTypeDefinition", genericInstanceType})
+    }
+    /** This a wrapper for `sendRequest`. */
+    getSyncObjectDefinition(syncObjectType: string, flattened=false): Promise<SyncObjectDefinitionData> {
+        return this.sendRequest({$type: "getSyncObjectDefinition", syncObjectType, flattened})
+    }
+    /** This a wrapper for `sendRequest`. */
+    getTypeDefinition(type: string): Promise<TypeDefinitionData> {
+        return this.sendRequest({$type: "getTypeDefinition", type})
+    }
+
     /** This is a wrapper for `sendRequest`.
      * 
      * If you want to uses the other `sendRequest` wrapper in a batch, use `batch()` instead. */
-    dataModelOperationBatch(operations: DataModelOperation[]): Promise<BatchResponse>{
+    dataModelOperationBatch(operations: DataModelOperation[]): Promise<BatchResponse> {
         return this.sendRequest({
             $type: "dataModelOperationBatch",
             operations

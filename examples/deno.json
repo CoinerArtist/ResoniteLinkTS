@@ -1,6 +1,7 @@
 {
   "tasks": {
     "createSimpleObject": "deno run --allow-net createSimpleObject/main.ts",
-    "createSimpleObjectBatch": "deno run --allow-net createSimpleObjectBatch/main.ts"
+    "createSimpleObjectBatch": "deno run --allow-net createSimpleObjectBatch/main.ts",
+    "reflection": "deno run --allow-net reflection/main.ts"
   }
 }

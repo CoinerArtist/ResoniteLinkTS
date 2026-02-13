@@ -1,4 +1,4 @@
-import type { DataModelOperation, RequestSessionData, DataModelOperationBatch } from "./index.ts";
+import type { DataModelOperation, RequestSessionData, DataModelOperationBatch, GetComponentDefinition, GetComponentTypeList, GetEnumDefinition, GetGenericTypeDefinition, GetSyncObjectDefinition, GetTypeDefinition } from "./index.ts";
 
 export interface MessageGeneric<T extends string>{
     $type: T
@@ -6,5 +6,7 @@ export interface MessageGeneric<T extends string>{
 }
 
 export type Message = 
-RequestSessionData | DataModelOperation | DataModelOperationBatch
+RequestSessionData | DataModelOperation | DataModelOperationBatch |
+GetComponentDefinition | GetComponentTypeList | GetEnumDefinition | GetGenericTypeDefinition | GetSyncObjectDefinition | GetTypeDefinition
+
 // Todo add data imports

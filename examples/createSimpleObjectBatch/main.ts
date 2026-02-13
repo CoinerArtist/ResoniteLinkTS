@@ -1,5 +1,5 @@
 import { ResoniteLinkClient } from "../../link/index.ts"
-import type { BoxCollider, BoxMesh, Grabbable, MeshRenderer, PBS_Metallic, TextRenderer, ValueCopy } from "./types.ts";
+import type { BoxCollider, BoxMesh, Grabbable, MeshRenderer, PBS_Metallic, TextRenderer, ValueCopy } from "../createSimpleObject/types.ts";
 
 // --- //
 

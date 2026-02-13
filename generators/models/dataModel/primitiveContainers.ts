@@ -96,6 +96,8 @@ const out =
 
 export type PrimitiveType = ${primitiveTypes.map(x => `"${x[0]}"`).join("|")}
 export type NullableType = ${primitiveTypes.filter(x => !(nonNullablesType as string[]).includes(x[0])).map(x => `"${x[0]}?"`).join("|")}
+
+/** Don't mistake for \`TypeField\`.*/
 export type FieldType = PrimitiveType | NullableType | "enum" | "enum?"
 
 export type ArrayType = ${primitiveTypes.map(x => `"${x[0]}[]"`).join("|")}

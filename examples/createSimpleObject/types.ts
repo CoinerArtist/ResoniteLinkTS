@@ -1,4 +1,4 @@
-import type { Component, Field, NullableType, PrimitiveType, Reference, SyncList } from "../../link/index.ts";
+import type { Component, Field, /*FieldType,*/ NullableType, PrimitiveType, Reference, SyncList } from "../../link/index.ts";
 
 export type ValueField<T extends PrimitiveType | NullableType> = Component<
     `[FrooxEngine]FrooxEngine.ValueField<${T}>`, 
@@ -6,6 +6,19 @@ export type ValueField<T extends PrimitiveType | NullableType> = Component<
         Value: Field<T>
     }
 >
+
+/*
+A more accurate ValueField type would be this :
+
+export type ValueField<T extends FieldType, U extends string = T> = Component<
+    `[FrooxEngine]FrooxEngine.ValueField<${U}>`, 
+    {
+        Value: Field<T>
+    }
+>
+
+This allows to express enums, for example, `ValueField<"enum", "[FrooxEngine]FrooxEngine.BlendMode">`
+*/
 
 export type ReferenceField<T extends string> = Component<
     `[FrooxEngine]FrooxEngine.ReferenceField<${T}>`, 

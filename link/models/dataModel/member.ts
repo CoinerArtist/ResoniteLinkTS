@@ -3,6 +3,7 @@ import type { Field } from "./field.ts";
 import type { Reference } from "./reference.ts";
 import type { SyncList } from "./syncList.ts";
 import type { SyncObject } from "./syncObject.ts";
+import type { TypeField } from "./typeField.ts";
 
 export interface MemberGeneric<T extends string>{
     $type: T
@@ -21,7 +22,7 @@ export interface MemberGeneric<T extends string>{
 
 // Simply replacing every possible `type` with an `interface` fixed it
 
-export type Member = Field | Reference | SyncList | SyncObject | EmptyElement
+export type Member = Field | Reference | SyncList | SyncObject | EmptyElement | TypeField
 
 export type MakeMemberPartial<T extends Member> = 
   T extends {$type: "list"}

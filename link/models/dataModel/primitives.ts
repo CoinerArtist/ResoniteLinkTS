@@ -63,20 +63,21 @@ export interface number4x4{
     m30: number, m31: number, m32: number, m33: number
 }
 
-/** Uses `[0.0, 1.0]` range */
 export interface color{
     r: number, g: number, b: number, a: number
 }
 
-/** Uses `[0.0, 1.0]` range */
 export interface colorX extends color{
     profile: "Linear" | "sRGB" | "sRGBAlpha"
 }
 
-/** Uses `[0, 255]` range */
-export type color32 = color
 
-export interface rect{
+export interface Rect{
     position: number2
     size: number2
+}
+
+export interface BoundingBox{
+    min: number3
+    max: number3
 }
